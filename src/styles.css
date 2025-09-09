@@ -1,1 +1,146 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #535353;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 100vh;
+    background: #7b7b7b;
+    border: 3px solid #7b7b7b;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #898989;
+  }
+}
+
+body {
+  background-color: #535353;
+  color: #ffffff;
+}
+
+app-root, main, auth, app-login  {
+  width: 100% !important;
+  height: 100% !important;
+}
+.ant-form-item-label > label {
+    color: #ffffff;
+}
+
+nz-layout, nz-tabset {
+  height: 100%;
+}
+.ant-modal {
+  color: #ffffff;
+}
+.ant-modal-content {
+  background-color: #535353;
+}
+.ant-modal-body {
+  @apply px-2 py-2
+}
+.cdk-overlay-pane{
+  /* width: 100%; */
+}
+/* .ant-modal-body{
+  display: none;
+} */
+.ant-page-header,
+.ant-page-header-heading-title,
+.ant-page-header-back-button {
+  color: #ffffff;
+}
+
+.ant-page-header-heading-left {
+  width: 100%;
+}
+.ant-page-header-heading-title{
+  width: 100%;
+  text-align: center;
+}
+
+.ant-layout-header{
+  padding: 15px 15px 5px 30px;
+  color: #ffffff;
+  background-color: #535353;
+}
+.ant-layout-content {
+  padding: 5px 10px 0px 10px;
+  background-color: #535353;
+}
+.ant-tabs{
+  color: #ffffff;
+}
+.ant-list-item{
+  color: #ffffff;
+}
+.ant-list-split .ant-list-item {
+  border-bottom: unset;
+}
+.ant-tabs-content{
+  height: 100%;
+}
+.ant-checkbox-wrapper{
+  color: #ffffff;
+}
+.ant-select-multiple .ant-select-selection-item-remove{
+  line-height: 1.45;
+}
+
+.ant-tree {
+  background-color: transparent;
+  color: #ffffff;
+}
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected{
+  background-color: #808080;
+}
+.ant-tree .ant-tree-node-content-wrapper:hover {
+  background-color: #808080;
+}
+
+.ant-modal-confirm-body .ant-modal-confirm-title,
+.ant-modal-confirm-body .ant-modal-confirm-content {
+  color: #ffffff;
+}
+/*//////////////////////////////////////////////////////////////*/
+.progress_state,
+.progress_state_,
+.progress_state_0 {
+  /* background-color: #ee2119; */
+  @apply border-l-red-500
+}
+.progress_state_10 {
+  /* background-color: #fff256; */
+  @apply border-l-yellow-300
+}
+.progress_state_30,
+.progress_state_60,
+.progress_state_80,
+.progress_state_90,
+.progress_state_120,
+.progress_state_190 {
+  /* background-color: #03a2ff; */
+  @apply border-l-blue-500
+}
+
+.selected-outline {
+  background-color: #808080;
+}
+
+.ant-tabs-tab.ant-tabs-tab-disabled,
+.ant-checkbox-disabled + span {
+  @apply text-gray-400
+}
+

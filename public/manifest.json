@@ -1,0 +1,59 @@
+{
+    "id": "awt.xms.photoshop",
+    "name": "xMedia UXP Publisher",
+    "version": "1.0.0",
+    "main": "index.html",
+    "manifestVersion": 5,
+    "host": [
+        {
+            "app": "PS",
+            "minVersion": "25.12.3"
+        }
+    ],
+    "featureFlags": {
+        "enableSWCSupport": true
+    },
+    "requiredPermissions": {
+        "allowCodeGenerationFromStrings": true,
+        "network": {
+            "domains": []
+        },
+        "launchProcess": {
+            "schemes": ["https"]
+        },
+        "localFileSystem": "fullAccess",
+        "clipboard": "readAndWrite"
+    },
+    "entrypoints": [
+        {
+            "type": "panel",
+            "id": "app",
+            "label": {
+                "default": "xMedia UXP Publisher"
+            },
+            "minimumSize": {
+                "width": 650,
+                "height": 415
+            },
+            "maximumSize": {
+                "width": 650,
+                "height": 435
+            },
+            "icons": [
+                {
+                    "width": 23,
+                    "height": 23,
+                    "path": "icon.svg"
+                }
+            ]
+        }
+    ],
+    "icons": [
+        {
+            "width": 23,
+            "height": 23,
+            "path": "icon.svg",
+            "theme": ["darkest", "dark", "light", "lightest"]
+        }
+    ]
+}
