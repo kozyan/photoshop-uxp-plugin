@@ -4,12 +4,10 @@
     "version": "1.0.0",
     "main": "index.html",
     "manifestVersion": 5,
-    "host": [
-        {
-            "app": "PS",
-            "minVersion": "25.12.3"
-        }
-    ],
+    "host": {
+        "app": "PS",
+        "minVersion": "25.12.3"
+    },
     "featureFlags": {
         "enableSWCSupport": true
     },
