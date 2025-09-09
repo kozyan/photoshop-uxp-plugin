@@ -1,59 +1,60 @@
-# PhotoshopUxpPlugin
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+# Angular In UXP
 
-## Development server
+This repo contains a working example of running Angular in UXP.
 
-To start a local development server, run:
+## Important Information
 
-```bash
-ng serve
+This branch contains everything needed to demonstrate components, directives, services, and theme awareness.
+
+The most important files to take a look at are 
+- [components](src/app/components/) to see an example component
+- [directives](src/app/directives/) to see an example directive
+- [services](src/app/services/) to see an example service
+- [app.component.html](src/app/app.component.html) to see how components/directives are used.
+- [app.module.ts](src/app/app.module.ts) to see how components/directives need to be registered.
+- [styles.scss](styles.scss) to see how to set theme aware CSS variables
+
+## Getting started
+
+### Pre-requisites
+
+- node v20.18.0; if you don't already, use nvm ( [MAC](https://github.com/nvm-sh/nvm) | [Windows](https://github.com/coreybutler/nvm-windows) )
+- [UXP Developer Tool (UDT)](https://developer.adobe.com/photoshop/uxp/2022/guides/devtool/installation/)
+- [Visual Studio Code](https://code.visualstudio.com/Download)
+
+### Install dependencies
+
+To install the node modules and pull the git children repositories, run the following:
+
+```sh
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Building
 
-## Code scaffolding
+To build for production, run the following:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```sh
+npm run build
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Watching
 
-```bash
-ng generate --help
+To build for development and rebuild on changes, run the following:
+
+```sh
+npm run watch
 ```
 
-## Building
+### Running Plugin
 
-To build the project run:
+1. Open the Adobe UXP Developer Tools app
+2. Click 'Add Plugin'
+3. Navigate to your project folder, then select `dist/manifest.json`. It is import you select the one under the dist folder.
+4. Select 'Load' or 'Load & Watch' (you'll want to select 'Load & Watch' if you are running `npm run watch`)
 
-```bash
-ng build
-```
+## Authors
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- **Jeremiah Lynn** ( [github](https://github.com/jeremiahlynn) )
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
