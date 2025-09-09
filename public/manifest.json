@@ -1,6 +1,6 @@
 {
     "id": "awt.xms.photoshop",
-    "name": "xMedia UXP Publisher",
+    "name": "xMedia Publisher",
     "version": "1.0.0",
     "main": "index.html",
     "manifestVersion": 5,
@@ -29,15 +29,15 @@
             "type": "panel",
             "id": "app",
             "label": {
-                "default": "xMedia UXP Publisher"
+                "default": "xMedia Publisher"
             },
             "minimumSize": {
-                "width": 650,
-                "height": 415
+                "width": 450,
+                "height": 768
             },
             "maximumSize": {
                 "width": 650,
-                "height": 435
+                "height": 1024
             },
             "icons": [
                 {

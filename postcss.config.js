@@ -19,7 +19,7 @@ const inlineRemover = {
 
 module.exports = {
   plugins: [
-    inlineRemover, // 首先运行我们的自定义插件来清理 CSS
+    // inlineRemover, // 首先运行我们的自定义插件来清理 CSS
     require('tailwindcss'),
     require('autoprefixer'),
   ],
