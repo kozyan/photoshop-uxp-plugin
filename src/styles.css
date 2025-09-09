@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.css";
 
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
