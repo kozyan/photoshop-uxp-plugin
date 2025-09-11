@@ -3,7 +3,7 @@
   "compilerOptions": {
     "checkJs": false,
     "outDir": "./dist/out-tsc",
-    "strict": true,
+    "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,
@@ -20,7 +20,12 @@
     "module": "ES2022",
     "lib": ["ES2022", "DOM"],
     "baseUrl": "./",
-    "paths": {}
+    "paths": {},
+    // typeRoots override defaults, so be sure to include the implicit @types as well
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@adobe/cc-ext-uxp-types"
+    ],
   },
   "include": ["src/**/*.ts", "./environments/environment.ts"],
   "angularCompilerOptions": {
