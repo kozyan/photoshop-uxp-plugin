@@ -29,6 +29,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.15",
     "@angular/cli": "^19.2.15",
+    "@ngx-translate/http-loader": "^17.0.0",
     "@types/mockjs": "^1.0.7",
     "@types/node": "^20.4.5",
     "@types/photoshop": "^25.0.4",

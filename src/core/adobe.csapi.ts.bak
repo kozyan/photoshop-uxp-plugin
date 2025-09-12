@@ -1,0 +1,159 @@
+import { Injectable } from '@angular/core';
+import { CSEvent, CSInterface, HostId, HostEnvironment, HostApplication } from 'csinterface';
+import { Observable } from 'rxjs';
+
+export class AdobeCSApi extends CSInterface {
+    /**
+     *自定义事件的前缀
+     *
+     * @memberof AdobeCSApi
+     */
+    event_prefix = "adobe.csapi";
+
+  /**
+   *根据事件类型来创建事件。
+   *如果事件的类型为自定义则 type 要先转换为自定义类型，如：type = CustomEventType(type)
+   */
+  CreateEvent<T extends CSEvent>(type: string) {
+    const appId = this.getApplicationID();
+    const extensionId = this.getExtensionID();
+    let event = new CSEvent(type, "APPLICATION", appId, extensionId) as T;
+    return event;
+  }
+
+  /**
+   *自定义事件类型
+   */
+  CustomEventType(type: string){
+    if(type.startsWith("Annotations_")) return type;
+    else if( type.startsWith('__')) return type.substring(2);
+    else if(!type.startsWith(`${this.event_prefix}__`)) return `${this.event_prefix}__${type}`;
+    else return type;
+  }
+
+  /**
+   * 只通知，不接收
+   *
+   * @param {string} dispatchType 派发的事件
+   * @param {*} [parm] 派发事件的传递参数
+   * @memberof AdobeCSApi
+   */
+  Notify(dispatchType: string, parm?: any) {
+    const evt: CSEvent = this.CreateEvent(dispatchType);
+
+     if (typeof parm == "object") {
+      evt.data = JSON.stringify(parm || {});
+     }else{
+      evt.data = parm;
+     }
+
+    this.dispatchEvent(evt);
+  }
+
+  OnSomething<T extends CSEvent>(listenType: string) {
+    return new Observable<T>(subscribe => {
+     const callback = (e: T) => {
+       subscribe.next(e);
+     };
+
+     this.addEventListener(listenType, callback);
+    });
+  }
+
+  /**
+   *事件处理
+   *
+   * @template T extends CSEvent 返回的结果，其中 CSEvent.data 包括返回的数据
+   * @param {string} dispatchType 派发的事件
+   * @param {string} listenType 监听事件（获取派发事件的返回数据）
+   * @param {*} [parm] 派发事件的传递参数
+   * @param {boolean} [longListener] 是否持续监听
+   * @return {*} 返回一个 Observable<T>
+   * @memberof AdobeService
+   */
+  EventEmitter<T extends CSEvent>(dispatchType: string, listenType: string, parm?: any, longListener?: boolean) {
+    return new Observable<T>(subscribe => {
+
+     const evt: CSEvent = this.CreateEvent(dispatchType);
+
+     if (typeof parm == "object") {
+      evt.data = JSON.stringify(parm || {});
+     }else{
+      evt.data = parm;
+     }
+
+     const callback = (e: T) => {
+       if(!longListener){ //非长监听，则要先移除
+         this.removeEventListener(listenType, callback);
+       }
+       console.log(e);
+       subscribe.next(e);
+     };
+
+
+     this.addEventListener(listenType, callback);
+
+     this.dispatchEvent(evt);
+    });
+  }
+
+  /**
+   *自定义的事件处理
+   *
+   * @template T extends CSEvent 返回的结果，其中 CSEvent.data 包括返回的数据
+   * @param {string} type 事件类型
+   * @param {*} parm 调用参数
+   * @param {boolean} [longListener] 是否为长监听
+   * @return {*} 返回一个 Observable<T>
+   * @memberof AdobeService
+   */
+  CustomEventEmitter<T extends CSEvent>(type: string, parm?: any, longListener?: boolean) {
+    return new Observable<T>(subscribe => {
+     type = this.CustomEventType(type); //使用自定义事件类型
+     const evt: T = this.CreateEvent<T>(type);
+
+     if (typeof parm == "object") {
+      evt.data = JSON.stringify(parm || {});
+     }else{
+      evt.data = parm;
+     }
+
+     const listen_return_type = `${type}Complete`;
+
+     const callback = (e: T) => {
+       if(!longListener){ //非长监听，则要先移除
+         this.removeEventListener(listen_return_type, callback);
+       }
+       subscribe.next(e);
+     };
+
+
+     this.addEventListener(listen_return_type, callback);
+
+     this.dispatchEvent(evt);
+    });
+  }
+
+  AddMenu(mnuList: Array<{id: string, label: string, enable: boolean, checked: boolean, callback:(evt: CSEvent)=>void}|null>){
+    const mnuItems: Array<string> = [];
+    if(mnuList.length > 0){
+      mnuList.forEach(mnu => {
+        if(mnu){
+          mnuItems.push(`<MenuItem Id="${mnu.id}" Label="${mnu.label}" Enabled="${mnu.enable}" Checked="${mnu.checked}" />`);
+        }else{
+          mnuItems.push(`<MenuItem Label="---" />`);
+        }
+      });
+    }
+
+    const mnuMain = `<Menu>${mnuItems.join()}</Menu>`;
+    this.setPanelFlyoutMenu(mnuMain);
+    this.addEventListener('com.adobe.csxs.events.flyoutMenuClicked', (evt: CSEvent) => {
+      const menuId = evt.data.menuId;
+      const mnu = mnuList.find(x => x?.id === menuId);
+      if(mnu?.callback){
+        mnu?.callback(evt);
+      }
+    });
+  }
+}

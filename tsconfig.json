@@ -21,13 +21,13 @@
     "lib": ["ES2022", "DOM"],
     "baseUrl": "./",
     "paths": {},
-    // typeRoots override defaults, so be sure to include the implicit @types as well
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/@adobe/cc-ext-uxp-types"
+    "types": [
+      "./src/types/uxp_extensions",
+      "./src/types/window",
+      "@types/node"
     ],
   },
-  "include": ["src/**/*.ts", "./environments/environment.ts"],
+  "include": ["src/**/*.ts", "./environments/environment.ts", "src/core/adobe.csapi.ts.bak"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
