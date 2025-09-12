@@ -1,8 +1,26 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { HostId, HostApplication, CSEvent, HostEnvironment } from 'src/types/uxp_extensions';
 
+export class CSEvent {
+    type: string;
+    appId: string;
+    extensionId: string;
+    /**
+     * Event-specific data.
+     */
+    data?: any;
+    /**
+     * @param type          The name of the event type.
+     * @param appId         The unique identifier of the application that generated the event.
+     * @param extensionId   The unique identifier of the extension that generated the event.
+     */
+    constructor(type: string, appId: string, extensionId: string){
+      this.type = type;
+      this.appId = appId;
+      this.extensionId = extensionId;
+    }
+}
 
 export class AdobeCSApi {
     /**
@@ -29,7 +47,8 @@ export class AdobeCSApi {
               break;
       }
       this.appId = window.host;
-      this.extensionId = window.uxp.id as string;
+      this.extensionId = window.uxp.entrypoints._pluginInfo.id as string;
+      console.log("csapi init:", this, window.uxp);
     }
 
     dispatchEvent<T extends CSEvent>(event: T): void{

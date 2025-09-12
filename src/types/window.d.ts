@@ -6,6 +6,7 @@ import {Encoding, FS, Util} from "./uxp_extensions";
 // import {CSEvent, CSInterface} from "csinterface";
 import * as uxp from '@adobe/cc-ext-uxp-types';
 
+
 declare global {
 
     interface csdk_messaging {

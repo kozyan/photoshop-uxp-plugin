@@ -24,7 +24,9 @@
     "types": [
       "./src/types/uxp_extensions",
       "./src/types/window",
-      "@types/node"
+      "@types/node",
+      "@types/photoshop",
+      "@adobe/cc-ext-uxp-types"
     ],
   },
   "include": [
