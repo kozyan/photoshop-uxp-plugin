@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
         }
     };
     const payload = {Msge: JSON.stringify(data)}
-    window.photoshop.messaging.sendSDKPluginMessage("awt.xms.photoshop", payload);
+    window.photoshop.messaging.sendSDKPluginMessage("awt.xms.photoshop", data);
 
   }
 }

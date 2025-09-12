@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CSEvent, CSInterface, HostId, HostEnvironment, HostApplication } from 'csinterface';
-import { Observable } from 'rxjs';
 
-export class AdobeCSApi extends CSInterface {
+import { Observable } from 'rxjs';
+import { HostId, HostApplication, CSEvent, HostEnvironment } from 'src/types/uxp_extensions';
+
+
+export class AdobeCSApi {
     /**
      *自定义事件的前缀
      *
@@ -10,14 +12,44 @@ export class AdobeCSApi extends CSInterface {
      */
     event_prefix = "adobe.csapi";
 
+    appId: string;
+    extensionId: string;
+    app: any;
+
+    constructor(){
+      switch (window.host) {
+          case 'InDesign':
+              this.app = window.indesign;
+              break;
+          case 'Illustrator':
+              this.app = window.illustrator
+              break;
+          case 'Photoshop':
+              this.app = window.photoshop;
+              break;
+      }
+      this.appId = window.host;
+      this.extensionId = window.uxp.id as string;
+    }
+
+    dispatchEvent<T extends CSEvent>(event: T): void{
+      this.app.messaging.sendSDKPluginMessage(this.extensionId, event);
+    }
+    addEventListener<T extends CSEvent>(type: string, listener: (evt: T) => void, obj?: object): void{
+      this.app.messaging.addSDKMessagingListener(listener);
+    }
+    removeEventListener(type: string, listener: any, obj?: object): void{
+      this.app.messaging.removeSDKMessagingListener(listener);
+    }
+
   /**
    *根据事件类型来创建事件。
    *如果事件的类型为自定义则 type 要先转换为自定义类型，如：type = CustomEventType(type)
    */
   CreateEvent<T extends CSEvent>(type: string) {
-    const appId = this.getApplicationID();
-    const extensionId = this.getExtensionID();
-    let event = new CSEvent(type, "APPLICATION", appId, extensionId) as T;
+    const appId = this.appId;
+    const extensionId = this.extensionId;
+    let event = new CSEvent(type, appId, extensionId) as T;
     return event;
   }
 
@@ -147,13 +179,13 @@ export class AdobeCSApi extends CSInterface {
     }
 
     const mnuMain = `<Menu>${mnuItems.join()}</Menu>`;
-    this.setPanelFlyoutMenu(mnuMain);
-    this.addEventListener('com.adobe.csxs.events.flyoutMenuClicked', (evt: CSEvent) => {
-      const menuId = evt.data.menuId;
-      const mnu = mnuList.find(x => x?.id === menuId);
-      if(mnu?.callback){
-        mnu?.callback(evt);
-      }
-    });
+    // this.setPanelFlyoutMenu(mnuMain);
+    // this.addEventListener('com.adobe.csxs.events.flyoutMenuClicked', (evt: CSEvent) => {
+    //   const menuId = evt.data.menuId;
+    //   const mnu = mnuList.find(x => x?.id === menuId);
+    //   if(mnu?.callback){
+    //     mnu?.callback(evt);
+    //   }
+    // });
   }
 }

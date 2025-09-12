@@ -27,7 +27,11 @@
       "@types/node"
     ],
   },
-  "include": ["src/**/*.ts", "./environments/environment.ts", "src/core/adobe.csapi.ts.bak"],
+  "include": [
+    "src/**/*.ts",
+    "src/core/*.ts",
+    "./environments/environment.ts",
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
