@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { uxp } from "@adobe/cc-ext-uxp-types";
-import uxp from 'uxp';
 
 @Component({
   standalone: false,
@@ -12,12 +10,12 @@ export class AppComponent implements OnInit {
   title = 'photoshop-uxp-plugin';
 
   callback = (o) => {
-    console.log("Message from " + o.pluginId + ":" + o.message);
+    console.log("Message from " + o.pluginId + ":" + o.message, o);
   }
 
   ngOnInit(): void {
-    window.require('photoshop').messaging.addSDKMessagingListener(this.callback);
-    window.require('photoshop').messaging.removeSDKMessagingListener(this.callback);
+    window.photoshop.messaging.addSDKMessagingListener(this.callback);
+    // window.photoshop.messaging.removeSDKMessagingListener(this.callback);
   }
 
   doClick = (evt:any) => {
@@ -25,16 +23,17 @@ export class AppComponent implements OnInit {
     // console.log(evt);
 
     // console.log(photoshop);
-    console.log("APP:WINDOW_PHOTOSHOP::", window?.require('photoshop'));
+    console.log("APP:WINDOW_PHOTOSHOP::", window.photoshop);
     // console.log(uxp);
 
-    let messageContent = {
-        "Publisher__AfterCloseDoc": {
+    const data = {
+        method: "Publisher__GetDocCount",
+        params: {
           "docCount": 3
         }
     };
-    const payload = {Msge: JSON.stringify(messageContent)}
-    window.require('photoshop').messaging.sendSDKPluginMessage("awt.xms.photoshop", payload);
+    const payload = {Msge: JSON.stringify(data)}
+    window.photoshop.messaging.sendSDKPluginMessage("awt.xms.photoshop", payload);
 
   }
 }

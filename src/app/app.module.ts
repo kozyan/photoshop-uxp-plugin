@@ -1,15 +1,34 @@
 import { NgModule, provideZoneChangeDetection, } from '@angular/core';
+import { APP_BASE_HREF, HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { zh_TW } from 'ng-zorro-antd/i18n';
+import zh from '@angular/common/locales/zh';
+import { HttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { createTranslateLoader } from '../core/TranslateLoader';
 
 @NgModule({
-    providers: [provideZoneChangeDetection({ eventCoalescing: true })],
     declarations: [
         AppComponent
     ],
     imports: [
         BrowserModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: createTranslateLoader,
+            deps: [HttpClient],
+          },
+        })
     ],
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    { provide: APP_BASE_HREF, useValue: '/' },
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    { provide: NZ_I18N, useValue: zh_TW },
+  ],
     bootstrap: [AppComponent],
 })
 export class AppModule { }
