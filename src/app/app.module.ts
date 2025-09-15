@@ -10,7 +10,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/TranslateLoader';
 import { CustomComponentModule } from './components/custom-component.module';
 // import { AuthModule } from './auth/auth.module';
-// import { MainModule } from './main/main.module';
+import { MainModule } from './main/main.module';
 import { MnzModule } from './components/mnz.module';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { MnzModule } from './components/mnz.module';
         MnzModule,
         CustomComponentModule,
         // AuthModule,
-        // MainModule,
+        MainModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,

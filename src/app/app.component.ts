@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@
 import { AppService } from '@service/app.service';
 import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
 import { AdobeService } from 'src/service/@base/adobe.service';
-import { CSEvent } from 'src/types/uxp_extensions';
 
 @Component({
   standalone: false,
