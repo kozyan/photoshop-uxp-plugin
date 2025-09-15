@@ -8,6 +8,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/TranslateLoader';
+import { CustomComponentModule } from './components/custom-component.module';
+// import { AuthModule } from './auth/auth.module';
+// import { MainModule } from './main/main.module';
+import { MnzModule } from './components/mnz.module';
 
 @NgModule({
     declarations: [
@@ -15,6 +19,10 @@ import { createTranslateLoader } from '../core/TranslateLoader';
     ],
     imports: [
         BrowserModule,
+        MnzModule,
+        CustomComponentModule,
+        // AuthModule,
+        // MainModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,

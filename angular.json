@@ -26,10 +26,6 @@
             ],
             "tsConfig": "tsconfig.json",
             "assets": [
-              "src/favicon.ico",
-              "src/content",
-              "src/assets",
-              "src/mock",
               { "glob": "**/*", "input": "public" }
             ],
             "styles": [
@@ -40,7 +36,13 @@
             "allowedCommonJsDependencies":[
               "xml2js",
               "mockjs"
-            ]
+            ],
+            "optimization": {
+              "styles": {
+                "minify": false,
+                "inlineCritical": false
+              }
+            }
           },
           "configurations": {
             "production": {
