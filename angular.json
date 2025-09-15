@@ -26,10 +26,21 @@
             ],
             "tsConfig": "tsconfig.json",
             "assets": [
+              "src/favicon.ico",
+              "src/content",
+              "src/assets",
+              "src/mock",
               { "glob": "**/*", "input": "public" }
             ],
-            "styles": [ "src/styles.css" ],
-            "scripts": [ "load.js" ]
+            "styles": [
+              "node_modules/ng-zorro-antd/ng-zorro-antd.css",
+              "src/styles.css"
+            ],
+            "scripts": [ "load.js" ],
+            "allowedCommonJsDependencies":[
+              "xml2js",
+              "mockjs"
+            ]
           },
           "configurations": {
             "production": {

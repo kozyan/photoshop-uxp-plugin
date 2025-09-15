@@ -20,7 +20,13 @@
     "module": "ES2022",
     "lib": ["ES2022", "DOM"],
     "baseUrl": "./",
-    "paths": {},
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@core/*": ["src/core/*"],
+      "@models/*": ["src/models/*"],
+      "@pipes/*": ["src/pipes/*"],
+      "@service/*": ["src/service/*"],
+    },
     "types": [
       "./src/types/uxp_extensions",
       "./src/types/window",
@@ -29,10 +35,10 @@
       "@adobe/cc-ext-uxp-types"
     ],
   },
-  "include": [
-    "src/**/*.ts",
-    "src/core/*.ts",
-    "./environments/environment.ts",
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
