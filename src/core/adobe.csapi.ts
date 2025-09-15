@@ -137,8 +137,14 @@ export class AdobeCSApi {
        if(!longListener){ //非长监听，则要先移除
          this.removeEventListener(listenType, callback);
        }
-       console.log(e);
-       subscribe.next(e);
+
+       // uxp to cep event
+       let {pluginId, message} = e as any;
+       let event = new CSEvent(message.type, this.appId, pluginId) as T;
+       event.data = message.data;
+
+       console.log("adobe.csapi::EventEmitter",e, event);
+       subscribe.next(event);
      };
 
 
@@ -175,7 +181,15 @@ export class AdobeCSApi {
        if(!longListener){ //非长监听，则要先移除
          this.removeEventListener(listen_return_type, callback);
        }
-       subscribe.next(e);
+      //  subscribe.next(e);
+
+      // uxp to cep event
+      let {pluginId, message} = e as any;
+      let event = new CSEvent(message.type, this.appId, pluginId) as T;
+      event.data = message.data;
+
+      console.log("adobe.csapi::CustomEventEmitter",e, event);
+      subscribe.next(event);
      };
 
 
