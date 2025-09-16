@@ -54,108 +54,109 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
 
-    // // this.adobeService.FinalSubmit().subscribe(x => console.log(x));
-    // // this.adobeService.Logout().subscribe(x => console.log(x)); //注销之前登录用户
+    // this.adobeService.FinalSubmit().subscribe(x => console.log(x));
+    // this.adobeService.Logout().subscribe(x => console.log(x)); //注销之前登录用户
 
-    // this.adobeService.addEventListener("UpdateProgressStatus", evt => console.log(evt));
-    // this.adobeService.addEventListener("OpenLayoutComplete", evt => console.log(evt));
-    // this.adobeService.addEventListener("SnapshotComplete", evt => console.log(evt));
-    // this.adobeService.addEventListener("SubmitComplete", evt => console.log(evt));
-    // this.adobeService.addEventListener("FinalSubmitComplete", evt => console.log(evt));
+    this.adobeService.addEventListener("UpdateProgressStatus", evt => console.log(evt));
+    this.adobeService.addEventListener("OpenLayoutComplete", evt => console.log(evt));
+    this.adobeService.addEventListener("SnapshotComplete", evt => console.log(evt));
+    this.adobeService.addEventListener("SubmitComplete", evt => console.log(evt));
+    this.adobeService.addEventListener("FinalSubmitComplete", evt => console.log(evt));
 
-    // this.adobeService.addEventListener("PluginReady", evt => console.log(evt));
+    this.adobeService.addEventListener("PluginReady", evt => console.log(evt));
 
-    // // this.adobeService.GetGeneralSetting().subscribe(x => {
-    // //   console.log(x);
-    // //   this.appService.settings.set(x.data);
-    // // });
+    this.adobeService.GetGeneralSetting().subscribe(x => {
+      console.log("App::GetGeneralSetting",x);
+      this.appService.settings.set(x.data);
+    });
 
-    // //接收在 InDesign 窗口登出事件
-    // this.adobeService.onLogout()
-    // .pipe(takeUntil(this.unsubscribe))
-    // .subscribe(x => {
+    //接收在 InDesign 窗口登出事件
+    this.adobeService.onLogout()
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(x => {
 
-    //   console.log("APP::Logout", x);
-    //   this.appService.pluginInfo.mutate(p => p.authenticated = false);
+      console.log("APP::Logout", x);
+      this.appService.pluginInfo.mutate(p => p.authenticated = false);
 
-    //   // TODO:
-    //   // this.ngZone.run(() => this.router.navigate(["/auth/login"]));
-    // });
+      // TODO:
+      // this.ngZone.run(() => this.router.navigate(["/auth/login"]));
+    });
 
-    // this.adobeService.onAfterNewDoc().subscribe(x => {
-    //   console.log("after new doc", x);
-    //   this.appService.docCount.set(x.data.docCount || 1);
-    // });
-    // this.adobeService.onAfterOpenDoc().subscribe(x => {
-    //   console.log("after open doc", x);
-    //   this.appService.docCount.set(x.data.docCount || 1);
-    // });
-    // this.adobeService.onAfterCloseDoc().subscribe(x => {
-    //   console.log("after close doc", x);
-    //   this.appService.docCount.set(x.data.docCount);
-    // });
-    // this.adobeService.GetDocCount({docCount:0}).subscribe(x => {
-    //   console.log("APP::GetDocCount", x);
-    //   this.appService.docCount.set(x.data.docCount);
-    // });
+    this.adobeService.onAfterNewDoc().subscribe(x => {
+      console.log("after new doc", x);
+      this.appService.docCount.set(x.data.docCount || 1);
+    });
+    this.adobeService.onAfterOpenDoc().subscribe(x => {
+      console.log("after open doc", x);
+      this.appService.docCount.set(x.data.docCount || 1);
+    });
+    this.adobeService.onAfterCloseDoc().subscribe(x => {
+      console.log("after close doc", x);
+      this.appService.docCount.set(x.data.docCount);
+    });
+    this.adobeService.GetDocCount({docCount:0}).subscribe(x => {
+      console.log("APP::GetDocCount", x);
+      this.appService.docCount.set(x.data.docCount);
+    });
 
-    // //on doc change
-    // console.log("register on doc change");
-    // this.adobeService.onDocChange().subscribe(x => {
-    //   console.log(x);
-    // });
+    //on doc change
+    console.log("register on doc change");
+    this.adobeService.onDocChange().subscribe(x => {
+      console.log(x);
+    });
 
-    // if(this.appService.pluginInfo().authenticated){//如果缓存中已经授权，在跳到子模块之前要通知插件登录信息
-
-    //   // console.log("authenticated");
-
-    //   // const userInfo = this.appService.userInfo();
-    //   // this.adobeService.LoginPluginComplete(userInfo);
-
-    //   // this.adobeService.AddMenu([
-    //   //   {id: "logout", label:`登出(${userInfo.user_account})`, enable:true, checked:false, callback: (evt) => this.handleLogout(evt)},
-    //   //   null
-    //   // ]);
-
-    //   //如果已经登录，则要求重新登录
-    //   // this.ngZone.run(() => this.router.navigate(["/auth/login"]));
-
-    //   //显示 main 页面
-    //   this.host.viewContainerRef.clear();
-    //   this.host.viewContainerRef.createComponent(MainComponent);
-
-    // } else {
-    //   console.log("APP::Init::Ext ready");
-
-    //   this.adobeService.ExtReady().subscribe(async x => {
-    //     const data = x.data as PluginInfoVo;
-    //     console.log(x);
-
-    //     this.appService.pluginInfo.set(data);
-
-    //     this.adobeService.GetDomainList()
-    //     .subscribe(xx => {
-    //       console.log(xx);
-    //       const {WebURL, domains} = xx.data;
-
-    //       this.appService.pluginInfo.update(info => {
-    //         return {WebURL, domains, ...info};
-    //       });
-    //     });
-
-    //     // this.message.set({msg:`Publisher plugin is ready`, type: NotifyType.success});
-    //     console.log("Publisher plugin is ready");
-
-    //     //显示 main 页面
-    //     this.host.viewContainerRef.clear();
-    //     this.host.viewContainerRef.createComponent(MainComponent);
-    //   });
-    // }
   }
 
   ngAfterViewInit(): void {
     //显示 main 页面
-    this.host?.viewContainerRef?.createComponent(MainComponent);
+    // this.host?.viewContainerRef?.createComponent(MainComponent);
+
+    if(this.appService.pluginInfo().authenticated){//如果缓存中已经授权，在跳到子模块之前要通知插件登录信息
+
+      // console.log("authenticated");
+
+      // const userInfo = this.appService.userInfo();
+      // this.adobeService.LoginPluginComplete(userInfo);
+
+      // this.adobeService.AddMenu([
+      //   {id: "logout", label:`登出(${userInfo.user_account})`, enable:true, checked:false, callback: (evt) => this.handleLogout(evt)},
+      //   null
+      // ]);
+
+      //如果已经登录，则要求重新登录
+      // this.ngZone.run(() => this.router.navigate(["/auth/login"]));
+
+      //显示 main 页面
+      this.host.viewContainerRef.clear();
+      this.host.viewContainerRef.createComponent(MainComponent);
+
+    } else {
+      console.log("APP::Init::Ext ready");
+
+      this.adobeService.ExtReady().subscribe(async x => {
+        const data = x.data as PluginInfoVo;
+        console.log(x);
+
+        this.appService.pluginInfo.set(data);
+
+        this.adobeService.GetDomainList()
+        .subscribe(xx => {
+          console.log(xx);
+          const {WebURL, domains} = xx.data;
+
+          this.appService.pluginInfo.update(info => {
+            return {WebURL, domains, ...info};
+          });
+        });
+
+        // this.message.set({msg:`Publisher plugin is ready`, type: NotifyType.success});
+        console.log("Publisher plugin is ready");
+
+        //显示 main 页面
+        this.host.viewContainerRef.clear();
+        this.host.viewContainerRef.createComponent(MainComponent);
+      });
+    }
   }
 
   handleLogout(evt: CSEvent){

@@ -74,6 +74,9 @@ nz-layout, nz-tabset {
   text-align: center;
 }
 
+.ant-layout {
+  background-color: #535353;
+}
 .ant-layout-header{
   padding: 15px 15px 5px 30px;
   color: #ffffff;

@@ -111,7 +111,7 @@ export class AdobeCSApi {
        let event = new CSEvent(message.type, this.appId, pluginId) as T;
        event.data = message.data;
 
-       console.log("adobe.csapi::OnSomething",e, event);
+      //  console.log("adobe.csapi::OnSomething",e, event);
        subscribe.next(event);
      };
 
@@ -138,7 +138,7 @@ export class AdobeCSApi {
      if (typeof parm == "object") {
       evt.data = JSON.stringify(parm || {});
      }else{
-      evt.data = parm;
+      evt.data = parm || "";
      }
 
      const callback = (e: T) => {
@@ -151,7 +151,7 @@ export class AdobeCSApi {
        let event = new CSEvent(message.type, this.appId, pluginId) as T;
        event.data = message.data;
 
-       console.log("adobe.csapi::EventEmitter",e, event);
+      //  console.log("adobe.csapi::EventEmitter",e, event);
        subscribe.next(event);
      };
 
@@ -180,7 +180,7 @@ export class AdobeCSApi {
      if (typeof parm == "object") {
       evt.data = JSON.stringify(parm || {});
      }else{
-      evt.data = parm;
+      evt.data = parm || "";
      }
 
      const listen_return_type = `${type}Complete`;
@@ -196,7 +196,7 @@ export class AdobeCSApi {
       let event = new CSEvent(message.type, this.appId, pluginId) as T;
       event.data = message.data;
 
-      console.log("adobe.csapi::CustomEventEmitter",e, event);
+      // console.log("adobe.csapi::CustomEventEmitter",e, event);
       subscribe.next(event);
      };
 
