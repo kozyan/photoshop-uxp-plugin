@@ -6,6 +6,7 @@ import zh from '@angular/common/locales/zh';
 import { HttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
+import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/TranslateLoader';
 import { CustomComponentModule } from './components/custom-component.module';
@@ -15,7 +16,7 @@ import { MnzModule } from './components/mnz.module';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,

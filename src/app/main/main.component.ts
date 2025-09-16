@@ -4,6 +4,7 @@ import { AppService } from '../../service/app.service';
 import { UserAccountVo } from '../../service/@vo/UserAccountVo';
 
 @Component({
+  standalone: false,
   selector: 'main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']

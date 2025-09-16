@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@
 import { AppService } from '@service/app.service';
 import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
 import { AdobeService } from 'src/service/@base/adobe.service';
+import { MainComponent } from './main/main.component';
 
 @Component({
   standalone: false,
@@ -27,6 +28,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     const plugin = this.appService.pluginInfo();
     if (plugin.authenticated) {
       // GOTO main
+      // const viewContainerRef = this.host.viewContainerRef;
+      // viewContainerRef.clear();
+      // viewContainerRef.createComponent(MainComponent);
     }else{
       // GOTO login
       // this.host.viewContainerRef.clear();
