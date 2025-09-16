@@ -104,7 +104,15 @@ export class AdobeCSApi {
   OnSomething<T extends CSEvent>(listenType: string) {
     return new Observable<T>(subscribe => {
      const callback = (e: T) => {
-       subscribe.next(e);
+      //  subscribe.next(e);
+
+       // uxp to cep event
+       let {pluginId, message} = e as any;
+       let event = new CSEvent(message.type, this.appId, pluginId) as T;
+       event.data = message.data;
+
+       console.log("adobe.csapi::OnSomething",e, event);
+       subscribe.next(event);
      };
 
      this.addEventListener(listenType, callback);

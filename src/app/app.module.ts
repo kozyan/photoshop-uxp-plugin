@@ -3,10 +3,9 @@ import { APP_BASE_HREF, HashLocationStrategy, LocationStrategy, registerLocaleDa
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { zh_TW } from 'ng-zorro-antd/i18n';
 import zh from '@angular/common/locales/zh';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/TranslateLoader';
 import { CustomComponentModule } from './components/custom-component.module';
@@ -20,7 +19,6 @@ import { MnzModule } from './components/mnz.module';
     ],
     imports: [
         BrowserModule,
-        HttpClientModule,
         CustomComponentModule,
         // AuthModule,
         MainModule,
@@ -33,6 +31,7 @@ import { MnzModule } from './components/mnz.module';
         })
     ],
   providers: [
+    provideHttpClient(),
     // provideZoneChangeDetection({ eventCoalescing: true }),
     { provide: APP_BASE_HREF, useValue: '/' },
     {provide: LocationStrategy, useClass: HashLocationStrategy},

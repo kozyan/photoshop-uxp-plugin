@@ -49,7 +49,8 @@ constructor(
         authenticated = plugin.authenticated;
 
         if (!authenticated) {
-          this.router.navigate(['auth/login'], {queryParams: {returnUrl: state.url}});
+          // this.router.navigate(['auth/login'], {queryParams: {returnUrl: state.url}});
+          // TODO:
         } else {
 
           const langCode = plugin.language_code?.toLowerCase() || "zh-tw";

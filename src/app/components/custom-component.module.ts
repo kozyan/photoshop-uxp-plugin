@@ -27,6 +27,7 @@ import { MnzModule } from './mnz.module';
 import { TodayPipe } from '../../pipes/today.pipe';
 import { DateTimePipe } from '../../pipes/datetime.pipe';
 import { FilterCallbackPipe } from '../../pipes/filter-callback.pipe';
+import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
 
 const COMPONENTS = [
   // PageNotFoundComponent,
@@ -57,6 +58,10 @@ const PIPES = [
   FilterCallbackPipe
 ];
 
+const DIRECTIVES = [
+  DynamicHostDirective
+]
+
 @NgModule({
   imports: [
     DragDropModule,
@@ -65,8 +70,8 @@ const PIPES = [
     ReactiveFormsModule,
     MnzModule
   ],
-  declarations: [...COMPONENTS, ...PIPES],
+  declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
   // declarations: [...COMPONENTS, ...PIPES],
-  exports: [DragDropModule, CommonModule, FormsModule, ReactiveFormsModule, MnzModule, ...PIPES],
+  exports: [DragDropModule, CommonModule, FormsModule, ReactiveFormsModule, MnzModule, ...PIPES, ...DIRECTIVES],
 })
 export class CustomComponentModule { }
