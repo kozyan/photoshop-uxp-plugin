@@ -1,6 +1,6 @@
 <div class="flex h-full justify-center items-center">
 
-  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+  <form nz-form [formGroup]="validateForm" class="login-form">
     <nz-form-item>
       <nz-form-control>
         <div class="flex h-full justify-center items-center">
@@ -11,32 +11,32 @@
     <nz-form-item>
       <nz-form-control nzErrorTip="請輸入帳戶">
         <nz-form-label>帳戶</nz-form-label>
-        <nz-input-group nzPrefixIcon="user">
+        <!-- <nz-input-group nzPrefixIcon="user"> -->
           <input type="text" nz-input formControlName="account" placeholder="帳戶" [ngModel]="userInfo().user_account || pluginInfo().user_account" />
-        </nz-input-group>
+        <!-- </nz-input-group> -->
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-control nzErrorTip="請輸入密碼">
         <nz-form-label>密碼</nz-form-label>
-        <nz-input-group nzPrefixIcon="lock">
+        <!-- <nz-input-group nzPrefixIcon="lock"> -->
           <input type="password" nz-input formControlName="password" placeholder="密碼" />
-        </nz-input-group>
+        <!-- </nz-input-group> -->
       </nz-form-control>
     </nz-form-item>
     <nz-form-item *ngIf="(pluginInfo().domains?.length||0) > 0">
       <nz-form-control>
         <nz-form-label>網域</nz-form-label>
-        <nz-input-group nzPrefixIcon="dribbble">
+        <!-- <nz-input-group nzPrefixIcon="dribbble"> -->
           <nz-select formControlName="domain" nzBorderless [ngModel]="pluginInfo().selectedDomain" (ngModelChange)="change_domain()" >
             <nz-option *ngFor="let item of (pluginInfo().domains || [])" [nzLabel]="item.name" [nzValue]="item.name"></nz-option>
           </nz-select>
-        </nz-input-group>
+        <!-- </nz-input-group> -->
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-label style="background-color: red;color:white;padding:4px">警示: 如未 Login, 不可以上傳至PWS</nz-form-label>
     </nz-form-item>
-    <button nz-button class="login-form-button login-form-margin main-color palette-green-7"  [nzType]="'primary'">登入</button>
+    <button nz-button class="login-form-button login-form-margin main-color palette-green-7"  [nzType]="'primary'" (click)="submitForm()">登入</button>
   </form>
 </div>

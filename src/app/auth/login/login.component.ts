@@ -7,10 +7,10 @@ import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import { AppService } from '../../../service/app.service';
 import { PluginInfoVo } from '../../../service/@vo/PluginInfoVo';
 import { ConfigService } from '../../../service/@base/config.service';
-import { Router } from '@angular/router';
 import { CustomMessage, NotifyService, NotifyType } from '../../../service/notify.service';
 import { UserAccountVo } from '../../../service/@vo/UserAccountVo';
 import { CSEvent } from '@core/adobe.csapi';
+import { ViewService } from 'src/service/view.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     private adobeService: AdobeService,
     private configService: ConfigService,
     private notifyService: NotifyService,
-    private router: Router,
+    private viewService: ViewService,
   ) {
     this.pluginInfo = appService.pluginInfo;
     this.userInfo = appService.userInfo;
@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
           null
         ]);
 
-        this.router.navigate(['main']);
+        this.viewService.showMainView();
       }else{
         this.message.set({msg:"登入失敗：帳號或密碼錯誤", type: NotifyType.error});
       }

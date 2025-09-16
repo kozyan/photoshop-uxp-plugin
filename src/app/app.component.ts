@@ -1,17 +1,16 @@
 
-import { AfterViewInit, Component, ComponentFactoryResolver, NgZone, OnDestroy, OnInit, Signal, ViewChild, ViewContainerRef, WritableSignal, effect } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, Signal, ViewChild, WritableSignal, effect } from '@angular/core';
 import { Config, ConfigService } from '../service/@base/config.service';
 import { AppContext } from '../core/app.context';
 import { AdobeService } from '../service/@base/adobe.service';
-import { CustomMessage, NotifyService, NotifyType } from '../service/notify.service';
+import { CustomMessage, NotifyService } from '../service/notify.service';
 import { PluginInfoVo } from '../service/@vo/PluginInfoVo';
 import { AppService } from '../service/app.service';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs';
 import { CSEvent } from '@core/adobe.csapi';
 import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
-import { MainComponent } from './main/main.component';
+import { ViewService } from '../service/view.service';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private configService: ConfigService,
     private adobeService: AdobeService,
     private notifyService: NotifyService,
-    private router: Router,
+    private viewService: ViewService,
     private ngZone: NgZone,
   ){
     this.appsettings = configService.appsettings;
@@ -108,53 +107,26 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    //显示 main 页面
-    // this.host?.viewContainerRef?.createComponent(MainComponent);
+    this.viewService.setViewContainerRef(this.host.viewContainerRef);
 
-    if(this.appService.pluginInfo().authenticated){//如果缓存中已经授权，在跳到子模块之前要通知插件登录信息
-
-      // console.log("authenticated");
-
-      // const userInfo = this.appService.userInfo();
-      // this.adobeService.LoginPluginComplete(userInfo);
-
-      // this.adobeService.AddMenu([
-      //   {id: "logout", label:`登出(${userInfo.user_account})`, enable:true, checked:false, callback: (evt) => this.handleLogout(evt)},
-      //   null
-      // ]);
-
-      //如果已经登录，则要求重新登录
-      // this.ngZone.run(() => this.router.navigate(["/auth/login"]));
-
-      //显示 main 页面
-      this.host.viewContainerRef.clear();
-      this.host.viewContainerRef.createComponent(MainComponent);
-
+    if (this.appService.pluginInfo().authenticated) {
+      this.viewService.showMainView();
     } else {
-      console.log("APP::Init::Ext ready");
-
       this.adobeService.ExtReady().subscribe(async x => {
         const data = x.data as PluginInfoVo;
-        console.log(x);
-
         this.appService.pluginInfo.set(data);
 
         this.adobeService.GetDomainList()
-        .subscribe(xx => {
-          console.log(xx);
-          const {WebURL, domains} = xx.data;
-
-          this.appService.pluginInfo.update(info => {
-            return {WebURL, domains, ...info};
+          .subscribe(xx => {
+            const { WebURL, domains } = xx.data;
+            this.appService.pluginInfo.update(info => {
+              return { WebURL, domains, ...info };
+            });
           });
-        });
 
-        // this.message.set({msg:`Publisher plugin is ready`, type: NotifyType.success});
         console.log("Publisher plugin is ready");
-
-        //显示 main 页面
-        this.host.viewContainerRef.clear();
-        this.host.viewContainerRef.createComponent(MainComponent);
+        this.viewService.showLoginView();
+        // this.viewService.showMainView();
       });
     }
   }

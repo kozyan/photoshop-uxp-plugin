@@ -1,16 +1,26 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, ViewContainerRef } from '@angular/core';
+import { MainComponent } from '../app/main/main.component';
+import { LoginComponent } from '../app/auth/login/login.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViewService {
-
-  currentView = new BehaviorSubject<string>('home');
+  private viewContainerRef!: ViewContainerRef;
 
   constructor() { }
 
-  setView(view: string) {
-    this.currentView.next(view);
+  setViewContainerRef(viewContainerRef: ViewContainerRef) {
+    this.viewContainerRef = viewContainerRef;
+  }
+
+  showMainView() {
+    this.viewContainerRef.clear();
+    this.viewContainerRef.createComponent(MainComponent);
+  }
+
+  showLoginView() {
+    this.viewContainerRef.clear();
+    this.viewContainerRef.createComponent(LoginComponent);
   }
 }

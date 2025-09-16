@@ -6,6 +6,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { MnzModule } from '../components/mnz.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UserOutline, LockOutline } from '@ant-design/icons-angular/icons';
 
 const COMPONENTS = [
   AuthComponent,
@@ -21,6 +23,7 @@ const COMPONENTS = [
     ReactiveFormsModule,
     MnzModule,
     AuthRoutingRoutes,
+    NzIconModule.forChild([UserOutline, LockOutline]),
   ],
   declarations: [...COMPONENTS]
 })
