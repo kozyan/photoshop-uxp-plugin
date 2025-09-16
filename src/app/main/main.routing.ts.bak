@@ -1,0 +1,23 @@
+import { Routes, RouterModule } from '@angular/router';
+import { MainComponent } from './main.component';
+import { TypesettingComponent } from '../components/typesetting/typesetting.component';
+import { PreferenceComponent } from '../components/preference/preference.component';
+import { TaskInfoComponent } from '../components/task-info/task-info.component';
+import { MaterialInfoComponent } from '../components/material-info/material-info.component';
+import { MaterialInfoUploadfileComponent } from '../components/material-info-uploadfile/material-info-uploadfile.component';
+
+const routes: Routes = [
+  {
+    path:"", component: MainComponent,
+    children: [
+      { path: "", pathMatch:"full", component: TypesettingComponent },
+      { path: "typesetting", component: TypesettingComponent },
+      { path: "preference", component: PreferenceComponent },
+      { path: "taskinfo", component: TaskInfoComponent },
+      { path: "materialinfo", component: MaterialInfoComponent },
+      { path: "materialinfo-uploadfile", component: MaterialInfoUploadfileComponent },
+    ]
+  },
+];
+
+export const MainRoutes = RouterModule.forChild(routes);

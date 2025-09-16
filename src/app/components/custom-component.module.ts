@@ -28,28 +28,28 @@ import { TodayPipe } from '../../pipes/today.pipe';
 import { DateTimePipe } from '../../pipes/datetime.pipe';
 import { FilterCallbackPipe } from '../../pipes/filter-callback.pipe';
 
-// const COMPONENTS = [
-//   PageNotFoundComponent,
-//   CrisisListComponent,
-//   HeroesListComponent,
-//   TypesettingComponent,
-//   TypesettingItemComponent,
-//   ActivityItemComponent,
-//   PreferenceComponent,
-//   EditionInfoComponent,
-//   MetadataInfoComponent,
-//   LayoutOpeningComponent,
-//   LayoutOpeningItemComponent,
-//   LayoutSubmitComponent,
-//   LayoutSubmitNotifyComponent,
-//   TaskInfoComponent,
-//   MaterialInfoComponent,
-//   UploadFolioItemComponent,
-//   MaterialInfoUploadfileComponent,
-//   OpenFolioItemComponent,
-//   FolioItemFormComponent,
-//   ChangeOnhandComponent
-// ];
+const COMPONENTS = [
+  // PageNotFoundComponent,
+  // CrisisListComponent,
+  // HeroesListComponent,
+  // TypesettingComponent,
+  // TypesettingItemComponent,
+  // ActivityItemComponent,
+  // PreferenceComponent,
+  // EditionInfoComponent,
+  // MetadataInfoComponent,
+  // LayoutOpeningComponent,
+  // LayoutOpeningItemComponent,
+  // LayoutSubmitComponent,
+  // LayoutSubmitNotifyComponent,
+  // TaskInfoComponent,
+  // MaterialInfoComponent,
+  // UploadFolioItemComponent,
+  // MaterialInfoUploadfileComponent,
+  // OpenFolioItemComponent,
+  // FolioItemFormComponent,
+  // ChangeOnhandComponent
+];
 
 const PIPES = [
   TodayPipe,
@@ -65,7 +65,8 @@ const PIPES = [
     ReactiveFormsModule,
     MnzModule
   ],
+  declarations: [...COMPONENTS, ...PIPES],
   // declarations: [...COMPONENTS, ...PIPES],
-  // exports: [DragDropModule, CommonModule, FormsModule, ReactiveFormsModule, MnzModule, ...PIPES],
+  exports: [DragDropModule, CommonModule, FormsModule, ReactiveFormsModule, MnzModule, ...PIPES],
 })
 export class CustomComponentModule { }

@@ -3,7 +3,7 @@ import { APP_BASE_HREF, HashLocationStrategy, LocationStrategy, registerLocaleDa
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { zh_TW } from 'ng-zorro-antd/i18n';
 import zh from '@angular/common/locales/zh';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
@@ -20,7 +20,7 @@ import { MnzModule } from './components/mnz.module';
     ],
     imports: [
         BrowserModule,
-        MnzModule,
+        HttpClientModule,
         CustomComponentModule,
         // AuthModule,
         MainModule,
