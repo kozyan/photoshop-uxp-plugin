@@ -40,13 +40,19 @@
             ],
             "optimization": {
               "styles": {
-                "minify": false,
+                "minify": true,
                 "inlineCritical": false
               }
             }
           },
           "configurations": {
             "production": {
+              "optimization": {
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                }
+              },
               "outputHashing": "all"
             },
             "development": {
