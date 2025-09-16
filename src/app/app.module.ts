@@ -33,7 +33,7 @@ import { MnzModule } from './components/mnz.module';
         })
     ],
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    // provideZoneChangeDetection({ eventCoalescing: true }),
     { provide: APP_BASE_HREF, useValue: '/' },
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     { provide: NZ_I18N, useValue: zh_TW },

@@ -27,7 +27,7 @@
             "tsConfig": "tsconfig.json",
             "assets": [
               "src/assets",
-              { "glob": "**/*", "input": "public" }
+              { "glob": "**/*", "input": "public", "output": "/" }
             ],
             "styles": [
               "node_modules/ng-zorro-antd/ng-zorro-antd.css",

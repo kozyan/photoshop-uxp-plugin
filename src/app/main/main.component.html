@@ -4,12 +4,12 @@
       <a class="btn" routerLink="crisis-list" routerLinkActive="btn-primary">Crisis Center</a> |
       <a class="btn" routerLink="heroes-list">Heroes</a>
     </nav> -->
-    <div nz-flex class="h-full" nzAlign="middle">
-      <div class="flex-item">
+    <div nz-row class="ant-row h-full ant-row-middle" nzAlign="middle">
+      <div nz-col nzSpan="4" class="ant-col ant-col-4">
         <img src="assets/xmslogo.png" style="height: 40px;" [title]="pluginInfo().version">
       </div>
-      <div class="flex-item text-xl text-center align-middle">xMEDIA</div>
-      <div class="flex-item text-lg text-right align-middle">{{userInfo().user_name}}</div>
+      <div nz-col nzSpan="5" class="text-xl text-center align-middle">xMEDIA</div>
+      <div nz-col nzSpan="15" class="text-lg text-right align-middle ant-col ant-col-15">{{userInfo().user_name}}</div>
     </div>
   </nz-header>
   <nz-layout>
