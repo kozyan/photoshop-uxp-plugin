@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.adobeService.addEventListener("SubmitComplete", evt => console.log(evt));
     this.adobeService.addEventListener("FinalSubmitComplete", evt => console.log(evt));
 
-    this.adobeService.addEventListener("PluginReady", evt => console.log(evt));
+    this.adobeService.addEventListener("PluginReady", evt => console.log("App::PluginReady",evt));
 
     this.adobeService.GetGeneralSetting().subscribe(x => {
       console.log("App::GetGeneralSetting",x);
@@ -79,6 +79,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // TODO:
       // this.ngZone.run(() => this.router.navigate(["/auth/login"]));
+      this.viewService.showLoginView();
     });
 
     this.adobeService.onAfterNewDoc().subscribe(x => {
@@ -93,9 +94,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log("after close doc", x);
       this.appService.docCount.set(x.data.docCount);
     });
-    this.adobeService.GetDocCount({docCount:0}).subscribe(x => {
-      console.log("APP::GetDocCount", x);
-      this.appService.docCount.set(x.data.docCount);
+    // this.adobeService.GetDocCount({docCount:0}).subscribe(x => {
+    //   console.log("APP::GetDocCount", x);
+    //   this.appService.docCount.set(x.data.docCount);
+    // });
+    this.adobeService.GetCurUserInfo({}).subscribe(x => {
+      console.log("App::GetCurUserInfo", x);
     });
 
     //on doc change
@@ -125,8 +129,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           });
 
         console.log("Publisher plugin is ready");
-        this.viewService.showLoginView();
-        // this.viewService.showMainView();
+        // this.viewService.showLoginView();
+        this.viewService.showMainView();
       });
     }
   }

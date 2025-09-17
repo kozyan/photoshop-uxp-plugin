@@ -5,6 +5,8 @@ import { zh_TW } from 'ng-zorro-antd/i18n';
 import zh from '@angular/common/locales/zh';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/TranslateLoader';
@@ -19,6 +21,8 @@ import { MnzModule } from './components/mnz.module';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
+        NzNotificationModule,
         CustomComponentModule,
         // AuthModule,
         MainModule,
