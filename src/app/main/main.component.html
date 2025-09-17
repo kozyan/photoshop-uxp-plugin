@@ -9,7 +9,16 @@
         <img src="assets/xmslogo.png" style="height: 40px;" [title]="pluginInfo().version">
       </div>
       <div nz-col nzSpan="5" class="text-xl text-center align-middle">xMEDIA</div>
-      <div nz-col nzSpan="15" class="text-lg text-right align-middle ant-col ant-col-15">{{userInfo().user_name}}</div>
+      <div nz-col nzSpan="15" class="text-lg text-right align-middle ant-col ant-col-15">
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          <span>{{userInfo().user_name}}</span>
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item (click)="logout()">登出</li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
     </div>
   </nz-header>
   <nz-content>

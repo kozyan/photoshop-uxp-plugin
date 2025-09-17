@@ -1,7 +1,9 @@
 import { Component, OnInit, WritableSignal, computed } from '@angular/core';
+import { Router } from '@angular/router';
 import { PluginInfoVo } from '../../service/@vo/PluginInfoVo';
 import { AppService } from '../../service/app.service';
 import { UserAccountVo } from '../../service/@vo/UserAccountVo';
+import { ViewService } from '@service/view.service';
 
 export type ViewType = 'typesetting' | 'preference' | 'taskinfo' | 'materialinfo' | 'materialinfo-uploadfile';
 
@@ -16,7 +18,9 @@ export class MainComponent implements OnInit {
   userInfo: WritableSignal<UserAccountVo>;
   activeView: ViewType = 'typesetting';
 
-  constructor(private appService: AppService) {
+  constructor(
+    private appService: AppService,
+    private viewService: ViewService,) {
     this.pluginInfo = appService.pluginInfo;
     this.userInfo = appService.userInfo;
   }
@@ -26,5 +30,11 @@ export class MainComponent implements OnInit {
 
   showView(view: ViewType) {
     this.activeView = view;
+  }
+
+  logout() {
+    this.appService.Logout();
+    // this.router.navigate(['/login']);
+    this.viewService.showLoginView();
   }
 }
