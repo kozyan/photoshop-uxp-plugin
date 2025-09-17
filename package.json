@@ -4,7 +4,7 @@
   "scripts": {
     "build": "ng build app --configuration production",
     "watch": "ng build app --watch --configuration development",
-    "start:host": "ng build app --watch --configuration development"
+    "start:host": "ng build app --watch --configuration production"
   },
   "private": true,
   "dependencies": {

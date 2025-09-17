@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../node_modules/ng-zorro-antd/ng-zorro-antd.css";
 /* @import '~ng-zorro-antd/ng-zorro-antd.css'; */
 /*@import "~ng-zorro-antd/ng-zorro-antd.dark.css";*/
 /*@import "~ng-zorro-antd/ng-zorro-antd.compact.css";*/
@@ -44,6 +43,9 @@ app-root, main, auth, app-login  {
 }
 .ant-form-item-label > label {
     color: #ffffff;
+}
+.anticon {
+  display: contents !important;
 }
 
 nz-layout, nz-tabset {
@@ -153,4 +155,3 @@ nz-layout, nz-tabset {
 .ant-checkbox-disabled + span {
   @apply text-gray-400
 }
-
