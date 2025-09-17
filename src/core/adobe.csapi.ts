@@ -34,6 +34,22 @@ export class AdobeCSApi {
     extensionId: string;
     app: any;
 
+    private eventTable: Map<string, { callbacks: Set<(evt: any) => void>; listenCount: number }> = new Map();
+    private isListenerRegistered = false;
+    private sdkMessageListener = (sdkMessage: any) => {
+        const { pluginId, message } = sdkMessage as any;
+        if(!message || !message.type) return;
+
+        const eventType = message.type;
+        if (this.eventTable.has(eventType)) {
+            const entry = this.eventTable.get(eventType)!;
+            const event = new CSEvent(message.type, this.appId, pluginId);
+            event.data = message.data;
+
+            entry.callbacks.forEach(callback => callback(event));
+        }
+    };
+
     constructor(){
       switch (window.host) {
           case 'InDesign':
@@ -55,10 +71,35 @@ export class AdobeCSApi {
       this.app.messaging.sendSDKPluginMessage(this.extensionId, event);
     }
     addEventListener<T extends CSEvent>(type: string, listener: (evt: T) => void, obj?: object): void{
-      this.app.messaging.addSDKMessagingListener(listener);
+      if (!this.isListenerRegistered) {
+        this.app.messaging.addSDKMessagingListener(this.sdkMessageListener);
+        this.isListenerRegistered = true;
+      }
+
+      if (!this.eventTable.has(type)) {
+        this.eventTable.set(type, { callbacks: new Set(), listenCount: 0 });
+      }
+
+      const entry = this.eventTable.get(type)!;
+      entry.callbacks.add(listener);
+      entry.listenCount++;
     }
     removeEventListener(type: string, listener: any, obj?: object): void{
-      this.app.messaging.removeSDKMessagingListener(listener);
+      if (this.eventTable.has(type)) {
+        const entry = this.eventTable.get(type)!;
+        if (entry.callbacks.delete(listener)) {
+          entry.listenCount--;
+        }
+
+        if (entry.listenCount === 0) {
+          this.eventTable.delete(type);
+        }
+      }
+
+      if (this.eventTable.size === 0 && this.isListenerRegistered) {
+        this.app.messaging.removeSDKMessagingListener(this.sdkMessageListener);
+        this.isListenerRegistered = false;
+      }
     }
 
   /**
@@ -103,19 +144,14 @@ export class AdobeCSApi {
 
   OnSomething<T extends CSEvent>(listenType: string) {
     return new Observable<T>(subscribe => {
-     const callback = (e: T) => {
-      //  subscribe.next(e);
+      const callback = (e: T) => {
+        subscribe.next(e);
+      };
 
-       // uxp to cep event
-       let {pluginId, message} = e as any;
-       let event = new CSEvent(message.type, this.appId, pluginId) as T;
-       event.data = message.data;
-
-      //  console.log("adobe.csapi::OnSomething",e, event);
-       subscribe.next(event);
-     };
-
-     this.addEventListener(listenType, callback);
+      this.addEventListener(listenType, callback);
+      return () => {
+        this.removeEventListener(listenType, callback);
+      };
     });
   }
 
@@ -133,32 +169,32 @@ export class AdobeCSApi {
   EventEmitter<T extends CSEvent>(dispatchType: string, listenType: string, parm?: any, longListener?: boolean) {
     return new Observable<T>(subscribe => {
 
-     const evt: CSEvent = this.CreateEvent(dispatchType);
+      const evt: CSEvent = this.CreateEvent(dispatchType);
 
-     if (typeof parm == "object") {
+      if (typeof parm == "object") {
       evt.data = JSON.stringify(parm || {});
-     }else{
+      }else{
       evt.data = parm || "";
-     }
+      }
 
-     const callback = (e: T) => {
-       if(!longListener){ //非长监听，则要先移除
-         this.removeEventListener(listenType, callback);
-       }
-
-       // uxp to cep event
-       let {pluginId, message} = e as any;
-       let event = new CSEvent(message.type, this.appId, pluginId) as T;
-       event.data = message.data;
-
-      //  console.log("adobe.csapi::EventEmitter",e, event);
-       subscribe.next(event);
-     };
+      const callback = (e: T) => {
+        if(!longListener){ //非长监听，则要先移除
+          this.removeEventListener(listenType, callback);
+        }
+        subscribe.next(e);
+      };
 
 
-     this.addEventListener(listenType, callback);
+      this.addEventListener(listenType, callback);
 
-     this.dispatchEvent(evt);
+      this.dispatchEvent(evt);
+
+      return () => {
+        //确保长监听在取消订阅时能够移除
+        if (longListener) {
+            this.removeEventListener(listenType, callback);
+        }
+      };
     });
   }
 
@@ -174,36 +210,35 @@ export class AdobeCSApi {
    */
   CustomEventEmitter<T extends CSEvent>(type: string, parm?: any, longListener?: boolean) {
     return new Observable<T>(subscribe => {
-     type = this.CustomEventType(type); //使用自定义事件类型
-     const evt: T = this.CreateEvent<T>(type);
+      type = this.CustomEventType(type); //使用自定义事件类型
+      const evt: T = this.CreateEvent<T>(type);
 
-     if (typeof parm == "object") {
+      if (typeof parm == "object") {
       evt.data = JSON.stringify(parm || {});
-     }else{
+      }else{
       evt.data = parm || "";
-     }
+      }
 
-     const listen_return_type = `${type}Complete`;
+      const listen_return_type = `${type}Complete`;
 
-     const callback = (e: T) => {
-       if(!longListener){ //非长监听，则要先移除
-         this.removeEventListener(listen_return_type, callback);
-       }
-      //  subscribe.next(e);
-
-      // uxp to cep event
-      let {pluginId, message} = e as any;
-      let event = new CSEvent(message.type, this.appId, pluginId) as T;
-      event.data = message.data;
-
-      // console.log("adobe.csapi::CustomEventEmitter",e, event);
-      subscribe.next(event);
-     };
+      const callback = (e: T) => {
+        if(!longListener){ //非长监听，则要先移除
+          this.removeEventListener(listen_return_type, callback);
+        }
+        subscribe.next(e);
+      };
 
 
-     this.addEventListener(listen_return_type, callback);
+      this.addEventListener(listen_return_type, callback);
 
-     this.dispatchEvent(evt);
+      this.dispatchEvent(evt);
+
+      return () => {
+        //确保长监听在取消订阅时能够移除
+        if (longListener) {
+            this.removeEventListener(listen_return_type, callback);
+        }
+      };
     });
   }
 
