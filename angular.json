@@ -27,7 +27,12 @@
             "tsConfig": "tsconfig.json",
             "assets": [
               "src/assets",
-              { "glob": "**/*", "input": "public", "output": "/" }
+              { "glob": "**/*", "input": "public", "output": "/assets/" },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "node_modules/ng-zorro-antd/ng-zorro-antd.css",
@@ -58,7 +63,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": false
             }
           },
           "defaultConfiguration": "production"

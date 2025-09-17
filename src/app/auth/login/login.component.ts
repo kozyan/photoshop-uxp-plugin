@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnInit, WritableSignal, effect } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CustomComponentModule } from '../../components/custom-component.module';
 import { AdobeService } from '../../../service/@base/adobe.service';
 
@@ -18,14 +17,15 @@ import { ViewService } from 'src/service/view.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  validateForm!: UntypedFormGroup;
+  account!: string;
+  password!: string;
+  domain!: string;
 
   pluginInfo: WritableSignal<PluginInfoVo>;
   userInfo: WritableSignal<UserAccountVo>;
   message: WritableSignal<CustomMessage>;
 
   constructor(
-    private fb: UntypedFormBuilder,
     private appService: AppService,
     private adobeService: AdobeService,
     private configService: ConfigService,
@@ -35,29 +35,19 @@ export class LoginComponent implements OnInit {
     this.pluginInfo = appService.pluginInfo;
     this.userInfo = appService.userInfo;
     this.message = notifyService.message;
+
+    this.account = this.userInfo().user_account || this.pluginInfo().user_account;
+    this.domain = this.pluginInfo().selectedDomain;
   }
 
   ngOnInit() {
-
-    this.validateForm = this.fb.group({
-      account: [null, [Validators.required]],
-      password: [null, [Validators.required]],
-      domain: [null, []],
-    });
-
     this.adobeService.AddMenu([]); //清空系统菜单
   }
 
   async submitForm(): Promise<void> {
-    if (this.validateForm.valid) {
-      // console.log('submit', this.validateForm.value);
-
-      // const ob = this.adobeService.GetDomainList();
-      // const ret = await firstValueFrom(ob);
-      // console.log(ret);
-
-      let userAccount: string = this.validateForm.value.account || '';
-      let domain: string = this.validateForm.value.domain || '';
+    if (this.account && this.password) {
+      let userAccount: string = this.account || '';
+      let domain: string = this.domain || '';
 
       if(domain){
         const namepath = userAccount.split('\\');
@@ -70,7 +60,7 @@ export class LoginComponent implements OnInit {
 
       let parm = {
         userAccount,
-        userPassword: this.validateForm.value.password,
+        userPassword: this.password,
         webURL: this.pluginInfo().WebURL
       };
       const ob = this.adobeService.VerifyUser(parm);
@@ -80,9 +70,9 @@ export class LoginComponent implements OnInit {
 
       /////////////////////////////////////////////////////
       const uparm = {
-        id: this.validateForm.value.account,
+        id: this.account,
         webURL: this.pluginInfo().WebURL,
-        domain: this.validateForm.value.domain || '',
+        domain: this.domain || '',
         isAgent: '0'
       };
       const user_result = await firstValueFrom(this.adobeService.GetUserInfo(uparm));
@@ -111,12 +101,7 @@ export class LoginComponent implements OnInit {
 
 
     } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
+      this.message.set({msg:"請輸入帳號和密碼", type: NotifyType.error});
     }
   }
 
