@@ -1,11 +1,12 @@
 import { NgModule, provideZoneChangeDetection, } from '@angular/core';
 import { APP_BASE_HREF, HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { zh_TW } from 'ng-zorro-antd/i18n';
 import zh from '@angular/common/locales/zh';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -21,7 +22,7 @@ import { MnzModule } from './components/mnz.module';
     ],
     imports: [
         BrowserModule,
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         NzNotificationModule,
         CustomComponentModule,
         // AuthModule,
@@ -40,6 +41,21 @@ import { MnzModule } from './components/mnz.module';
     { provide: APP_BASE_HREF, useValue: '/' },
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     { provide: NZ_I18N, useValue: zh_TW },
+    {
+      provide: NZ_CONFIG,
+      useValue: {
+        notification: {
+          nzTop: '24px',
+          nzBottom: '24px',
+          nzPlacement: 'topRight',
+          nzPauseOnHover: true,
+          nzAnimate: true
+        },
+        overlay: {
+          nzContainer: 'app-root'
+        }
+      } as NzConfig
+    }
   ],
     bootstrap: [AppComponent],
 })
