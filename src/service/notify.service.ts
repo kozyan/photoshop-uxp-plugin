@@ -1,4 +1,5 @@
 import { Injectable, effect, signal } from '@angular/core';
+import { UxpNotifyService } from './uxp-notify.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 export enum NotifyType {

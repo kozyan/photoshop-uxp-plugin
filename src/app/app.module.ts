@@ -7,7 +7,6 @@ import zh from '@angular/common/locales/zh';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../core/TranslateLoader';
@@ -15,6 +14,7 @@ import { CustomComponentModule } from './components/custom-component.module';
 // import { AuthModule } from './auth/auth.module';
 import { MainModule } from './main/main.module';
 import { MnzModule } from './components/mnz.module';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 @NgModule({
     declarations: [
@@ -41,21 +41,7 @@ import { MnzModule } from './components/mnz.module';
     { provide: APP_BASE_HREF, useValue: '/' },
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     { provide: NZ_I18N, useValue: zh_TW },
-    {
-      provide: NZ_CONFIG,
-      useValue: {
-        notification: {
-          nzTop: '24px',
-          nzBottom: '24px',
-          nzPlacement: 'topRight',
-          nzPauseOnHover: true,
-          nzAnimate: true
-        },
-        overlay: {
-          nzContainer: 'app-root'
-        }
-      } as NzConfig
-    }
+    // 移除 NZ_CONFIG 中关于 notification 的配置，因为不再使用 NzNotificationModule
   ],
     bootstrap: [AppComponent],
 })
