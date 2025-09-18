@@ -51,6 +51,7 @@ export class AdobeService extends AdobeCSApi {
 
   /** End on something **************************************************************/
 
+  IsAlive = (parm?: any) => this.CustomEventEmitter('alive', parm);
   GetDomainList = (parm?: any) => this.CustomEventEmitter('GetDomainList', parm);
   VerifyUser = (parm: any) => this.CustomEventEmitter('VerifyUser', parm);
   UpdateGeneralSetting = (parm: any) => this.CustomEventEmitter('UpdateGeneralSetting', parm);

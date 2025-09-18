@@ -116,7 +116,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.appService.pluginInfo().authenticated) {
       this.viewService.showMainView();
     } else {
-      this.adobeService.ExtReady().subscribe(async x => {
+      this.adobeService.ExtReady().subscribe(x => {
         const data = x.data as PluginInfoVo;
         this.appService.pluginInfo.set(data);
 
