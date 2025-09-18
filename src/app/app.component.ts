@@ -6,8 +6,8 @@ import { AdobeService } from '../service/@base/adobe.service';
 import { CustomMessage, NotifyService } from '../service/notify.service';
 import { PluginInfoVo } from '../service/@vo/PluginInfoVo';
 import { AppService } from '../service/app.service';
-import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs';
+import { interval, Subject } from 'rxjs';
+import { takeUntil, takeWhile } from 'rxjs';
 import { CSEvent } from '@core/adobe.csapi';
 import { DynamicHostDirective } from 'src/directive/dynamic-host.directive';
 import { ViewService } from '../service/view.service';
@@ -96,10 +96,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log("after close doc", x);
       this.appService.docCount.set(x.data.docCount);
     });
-    // this.adobeService.GetDocCount({docCount:0}).subscribe(x => {
-    //   console.log("APP::GetDocCount", x);
-    //   this.appService.docCount.set(x.data.docCount);
-    // });
+    this.adobeService.GetDocCount({docCount:0}).subscribe(x => {
+      console.log("APP::GetDocCount", x);
+      this.appService.docCount.set(x.data.docCount);
+    });
     this.adobeService.GetCurUserInfo({}).subscribe(x => {
       console.log("App::GetCurUserInfo", x);
     });
@@ -116,11 +116,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewService.setViewContainerRef(this.host.viewContainerRef);
 
     // 检查 Plugin 是否加载
-    this.adobeService.IsAlive().subscribe(x => {
-      console.log("App::AfterViewInit::IsAlive", x);
-
-      this.isPluginReady.set(true);
-    });
+    interval(1000)
+      .pipe(takeWhile(() => !this.isPluginReady()))
+      .subscribe(() => {
+        this.adobeService.IsAlive().subscribe(x => {
+          console.log("App::AfterViewInit::IsAlive", x);
+          this.isPluginReady.set(true);
+        });
+      });
 
     this.adobeService.ExtReady().subscribe(x => {
       const data = x.data as PluginInfoVo;
