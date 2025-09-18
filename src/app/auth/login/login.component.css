@@ -13,3 +13,9 @@
 .login-form-button {
   width: 100%;
 }
+
+/* 移除登录输入框的内部黑线 */
+:host ::ng-deep .login-form .ant-input {
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+}
