@@ -1,3 +1,4 @@
 <!-- <button nz-button nzType="default" class="w-full" (click)="doLogin($event)">Login</button> -->
-<ng-template appDynamicHost></ng-template>
+<span *ngIf="!isPluginReady">正在加載 Plugin...</span>
+<ng-template appDynamicHost *ngIf="isPluginReady"></ng-template>
 

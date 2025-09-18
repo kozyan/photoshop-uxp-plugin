@@ -134,7 +134,8 @@ export class AdobeCSApi {
     const evt: CSEvent = this.CreateEvent(dispatchType);
 
      if (typeof parm == "object") {
-      evt.data = JSON.stringify(parm || {});
+      const data = encodeURI(JSON.stringify(parm || {}));
+      evt.data = data;
      }else{
       evt.data = parm;
      }
@@ -172,7 +173,9 @@ export class AdobeCSApi {
       const evt: CSEvent = this.CreateEvent(dispatchType);
 
       if (typeof parm == "object") {
-      evt.data = JSON.stringify(parm || {});
+        // evt.data = JSON.stringify(parm || {});
+        const data = encodeURI(JSON.stringify(parm || {}));
+        evt.data = data;
       }else{
       evt.data = parm || "";
       }
@@ -214,9 +217,11 @@ export class AdobeCSApi {
       const evt: T = this.CreateEvent<T>(type);
 
       if (typeof parm == "object") {
-      evt.data = JSON.stringify(parm || {});
+      // evt.data = JSON.stringify(parm || {});
+        const data = encodeURI(JSON.stringify(parm || {}));
+        evt.data = data;
       }else{
-      evt.data = parm || "";
+        evt.data = parm || "";
       }
 
       const listen_return_type = `${type}Complete`;

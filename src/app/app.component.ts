@@ -1,5 +1,5 @@
 
-import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, Signal, ViewChild, WritableSignal, effect } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, Signal, ViewChild, WritableSignal, effect, signal } from '@angular/core';
 import { Config, ConfigService } from '../service/@base/config.service';
 import { AppContext } from '../core/app.context';
 import { AdobeService } from '../service/@base/adobe.service';
@@ -22,6 +22,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   title = 'publisher';
 
+  isPluginReady = signal(false);
+
   appsettings: WritableSignal<Config>;
   message: WritableSignal<CustomMessage>;
 
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private adobeService: AdobeService,
     private notifyService: NotifyService,
     private viewService: ViewService,
-    private ngZone: NgZone,
+    private zone: NgZone,
   ){
     this.appsettings = configService.appsettings;
     this.message = notifyService.message;
@@ -78,7 +80,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       this.appService.pluginInfo.mutate(p => p.authenticated = false);
 
       // TODO:
-      // this.ngZone.run(() => this.router.navigate(["/auth/login"]));
+      // this.zone.run(() => this.router.navigate(["/auth/login"]));
       this.viewService.showLoginView();
     });
 
@@ -113,13 +115,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.viewService.setViewContainerRef(this.host.viewContainerRef);
 
-    if (this.appService.pluginInfo().authenticated) {
-      this.viewService.showMainView();
-    } else {
-      this.adobeService.ExtReady().subscribe(x => {
-        const data = x.data as PluginInfoVo;
-        this.appService.pluginInfo.set(data);
+    // 检查 Plugin 是否加载
+    this.adobeService.IsAlive().subscribe(x => {
+      console.log("App::AfterViewInit::IsAlive", x);
 
+      this.isPluginReady.set(true);
+    });
+
+    this.adobeService.ExtReady().subscribe(x => {
+      const data = x.data as PluginInfoVo;
+      this.appService.pluginInfo.set(data);
+
+      this.zone.run(x => {
         this.adobeService.GetDomainList()
           .subscribe(xx => {
             const { WebURL, domains } = xx.data;
@@ -130,8 +137,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
         console.log("Publisher plugin is ready");
         // this.viewService.showLoginView();
-        this.viewService.showMainView();
+
       });
+    });
+
+    if (this.appService.pluginInfo().authenticated) {
+      this.viewService.showMainView();
+    } else {
+      this.viewService.showLoginView();
     }
   }
 
