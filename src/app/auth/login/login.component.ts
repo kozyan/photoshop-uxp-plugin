@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
         this.pluginInfo.update(info => {
           info.WebURL = WebURL;
           info.domains = domains;
-          info.domains = [{name:"XXX", path:"pppp"}];
+          // info.domains = [{name:"XXX", path:"pppp"}];
 
           return info;
         });
