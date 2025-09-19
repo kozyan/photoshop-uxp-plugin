@@ -53,7 +53,6 @@
           "configurations": {
             "production": {
               "optimization": {
-                "scripts": false,
                 "styles": {
                   "minify": true,
                   "inlineCritical": false
