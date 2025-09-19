@@ -1,42 +1,38 @@
 <div class="flex h-full justify-center items-center">
+  <div class="login-form p-8 rounded-lg shadow-lg bg-white w-full max-w-md">
+    <div class="mb-6 text-center">
+      <img src="assets/xmslogo.png" class="w-24 mx-auto" alt="Logo" />
+    </div>
 
-  <div class="login-form">
-    <nz-form-item>
-      <nz-form-control>
-        <div class="flex h-full justify-center items-center">
-          <img src="assets/xmslogo.png" style="width: 100px;" />
-        </div>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="請輸入帳戶">
-        <nz-form-label>帳戶</nz-form-label>
-        <nz-input-group nzPrefixIcon="user">
-          <input type="text" nz-input placeholder="帳戶" [(ngModel)]="account" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="請輸入密碼">
-        <nz-form-label>密碼</nz-form-label>
-        <nz-input-group nzPrefixIcon="lock">
-          <input type="password" nz-input class="" placeholder="密碼" [(ngModel)]="password" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item *ngIf="(pluginInfo().domains?.length||0) > 0">
-      <nz-form-control>
-        <nz-form-label>網域</nz-form-label>
-        <nz-input-group nzPrefixIcon="dribbble">
-          <nz-select nzBorderless [(ngModel)]="domain" (ngModelChange)="change_domain()" >
-            <nz-option *ngFor="let item of (pluginInfo().domains || [])" [nzLabel]="item.name" [nzValue]="item.name"></nz-option>
-          </nz-select>
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-        <nz-form-label style="background-color: red;color:white;padding:4px">警示: 如未 Login, 不可以上傳至PWS</nz-form-label>
-    </nz-form-item>
-    <button nz-button class="login-form-button login-form-margin main-color palette-green-7"  [nzType]="'primary'" (click)="submitForm()">登入</button>
+    <div class="mb-4">
+      <label class="block text-sm mb-2" for="account">帳戶</label>
+      <nz-input-group nzPrefixIcon="user" class="w-full">
+        <input type="text" placeholder="帳戶" [(ngModel)]="account" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </nz-input-group>
+      <!-- <p class="text-red-500 text-xs italic">請輸入帳戶</p> -->
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-sm mb-2" for="password">密碼</label>
+      <nz-input-group nzPrefixIcon="lock" class="w-full">
+        <input type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="密碼" [(ngModel)]="password" />
+      </nz-input-group>
+      <!-- <p class="text-red-500 text-xs italic">請輸入密碼</p> -->
+    </div>
+
+    <div class="mb-6" *ngIf="(pluginInfo().domains?.length||0) > 0">
+      <label class="blocktext-sm mb-2" for="domain">網域</label>
+      <nz-input-group nzPrefixIcon="dribbble" class="w-full">
+        <nz-select nzBorderless [(ngModel)]="domain" (ngModelChange)="change_domain()" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <nz-option *ngFor="let item of (pluginInfo().domains || [])" [nzLabel]="item.name" [nzValue]="item.name"></nz-option>
+        </nz-select>
+      </nz-input-group>
+    </div>
+
+    <div class="mb-6">
+        <label class="block text-white text-sm p-1 bg-red-500 rounded">警示: 如未 Login, 不可以上傳至PWS</label>
+    </div>
+
+    <button nz-button class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" [nzType]="'primary'" (click)="submitForm()">登入</button>
   </div>
 </div>
