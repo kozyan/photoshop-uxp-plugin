@@ -20,13 +20,6 @@ jobs:
             git checkout main
             git pull origin main
           } else {
-            Write-Host "Repository directory '$repoDir' or package.json does not exist. Performing git clone."
-            # Ensure the directory is clean before cloning if it exists but is not a valid repo
-            if (Test-Path -Path $repoDir) {
-                Remove-Item -Recurse -Force $repoDir
-            }
-            New-Item -Path $repoDir -ItemType Directory -Force
-            Set-Location $repoDir
             git clone git@github.com:kozyan/photoshop-uxp-plugin.git .
           }
         shell: powershell
