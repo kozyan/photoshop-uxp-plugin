@@ -12,10 +12,15 @@ jobs:
       - name: Checkout or Clone repository
         run: |
           Write-Host "Current directory: $(Get-Location)"
-          Write-Host "Repository already exists. Performing git checkout and pull."
-          git fetch origin
-          git checkout main
-          git pull origin main
+          if (Test-Path -Path ".git") {
+            Write-Host "Repository already exists. Performing git checkout and pull."
+            git fetch origin
+            git checkout main
+            git pull origin main
+          } else {
+            Write-Host "Repository does not exist. Cloning repository."
+            git clone git@github.com:kozyan/photoshop-uxp-plugin.git .
+          }
         shell: powershell
 
       # - name: Setup Node.js
