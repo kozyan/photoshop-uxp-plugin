@@ -9,12 +9,20 @@ jobs:
 
 
     steps:
-      - name: Clean existing repository directory and Clone repository
+      - name: Checkout or Clone repository
         run: |
-          if (Test-Path -Path "photoshop-uxp-plugin") {
-            Remove-Item -Recurse -Force photoshop-uxp-plugin
+          $repoDir = "photoshop-uxp-plugin"
+          if (Test-Path -Path $repoDir) {
+            Write-Host "Repository directory '$repoDir' already exists. Performing git checkout."
+            Set-Location $repoDir
+            git fetch origin
+            git checkout main
+            git pull origin main
+            Set-Location ..
+          } else {
+            Write-Host "Repository directory '$repoDir' does not exist. Performing git clone."
+            git clone git@github.com:kozyan/photoshop-uxp-plugin.git $repoDir
           }
-          git clone git@github.com:kozyan/photoshop-uxp-plugin.git photoshop-uxp-plugin
         shell: powershell
 
       # - name: Setup Node.js
