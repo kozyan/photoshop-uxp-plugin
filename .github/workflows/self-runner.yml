@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout or Clone repository
         run: |
+          Set-Location ..
+
           Write-Host "Current directory: $(Get-Location)"
           $repoDir = "."
           if (Test-Path -Path "$repoDir/package.json") {
