@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, NgZone, OnInit, WritableSignal, effect } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnInit, WritableSignal, effect, inject } from '@angular/core';
 import { CustomComponentModule } from '../../components/custom-component.module';
 import { AdobeService } from '../../../service/@base/adobe.service';
 
@@ -16,52 +16,47 @@ import { ViewService } from 'src/service/view.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   account!: string;
   password!: string;
   domain!: string;
 
-  pluginInfo: WritableSignal<PluginInfoVo>;
-  userInfo: WritableSignal<UserAccountVo>;
-  message: WritableSignal<CustomMessage>;
+  pluginInfo = inject(AppService).pluginInfo;
+  userInfo = inject(AppService).userInfo;
+  message = inject(NotifyService).message;
 
   constructor(
     private appService: AppService,
     private adobeService: AdobeService,
-    private configService: ConfigService,
-    private notifyService: NotifyService,
     private viewService: ViewService,
     private zone: NgZone,
   ) {
-    this.pluginInfo = appService.pluginInfo;
-    this.userInfo = appService.userInfo;
-    this.message = notifyService.message;
+  }
+  ngAfterViewInit(): void {
+    this.adobeService.AddMenu([]); //清空系统菜单
 
-    this.account = this.userInfo().user_account || this.pluginInfo().user_account;
-    this.domain = this.pluginInfo().selectedDomain;
+    // this.account = this.userInfo().user_account || this.pluginInfo().user_account;
+    // this.domain = this.pluginInfo().selectedDomain;
+
+    // // 重新取 GetDomainList
+    // this.adobeService.GetDomainList()
+    // .subscribe(xx => {
+    //   // this.zone.run(() => {
+    //     console.log(xx);
+    //     const {WebURL, domains} = xx.data;
+
+    //     this.pluginInfo.update(info => {
+    //       info.WebURL = WebURL;
+    //       info.domains = domains;
+    //       return info;
+    //     });
+
+    //     console.log("Login::init", this.pluginInfo());
+    //   // });
+    // });
   }
 
   ngOnInit() {
-    this.adobeService.AddMenu([]); //清空系统菜单
-
-    // 重新取 GetDomainList
-    this.adobeService.GetDomainList()
-    .subscribe(xx => {
-      this.zone.run(() => {
-        console.log(xx);
-        const {WebURL, domains} = xx.data;
-
-        this.pluginInfo.update(info => {
-          info.WebURL = WebURL;
-          info.domains = domains;
-          // info.domains = [{name:"XXX", path:"pppp"}];
-
-          return info;
-        });
-
-        console.log("Login::init", this.pluginInfo());
-      });
-    });
   }
 
   async submitForm(): Promise<void> {
@@ -133,8 +128,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  change_domain = () => {
+  change_domain() {
 
-  };
+  }
 
 }

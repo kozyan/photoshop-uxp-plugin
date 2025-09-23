@@ -6,7 +6,7 @@
     "manifestVersion": 5,
     "host": {
         "app": "PS",
-        "minVersion": "25.5.0"
+        "minVersion": "25.12.3"
     },
     "featureFlags": {
         "enableSWCSupport": true
