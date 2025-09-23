@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout or Clone repository
         run: |
-          $repoDir = "photoshop-uxp-plugin"
+          $repoDir = "src"
           if (Test-Path -Path $repoDir) {
             Write-Host "Repository directory '$repoDir' already exists. Performing git checkout."
             Set-Location $repoDir
@@ -33,8 +33,8 @@ jobs:
 
       - name: Install dependencies for uxp
         run: npm install --legacy-peer-deps
-        working-directory: ./photoshop-uxp-plugin
+        working-directory: ./src
 
       - name: Build uxp
-        run: npm run build -- --output-path ./dist/wwwroot
-        working-directory: ./photoshop-uxp-plugin
+        run: npm run build
+        working-directory: ./src
