@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        run: git checkout git@github.com:kozyan/photoshop-uxp-plugin.git publish
+        run: git clone git@github.com:kozyan/photoshop-uxp-plugin.git .
 
 
       # - name: Setup Node.js
@@ -19,8 +19,6 @@ jobs:
 
       - name: Install dependencies for uxp
         run: npm install --legacy-peer-deps
-        working-directory: ./publish
 
       - name: Build uxp
         run: npm run build -- --output-path ./dist
-        working-directory: ./publish
