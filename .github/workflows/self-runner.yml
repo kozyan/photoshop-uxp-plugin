@@ -12,15 +12,13 @@ jobs:
       - name: Checkout or Clone repository
         run: |
           Write-Host "Current directory: $(Get-Location)"
-          $repoDir = "src"
-          if (Test-Path -Path "$repoDir") {
-            Write-Host "Repository directory '$repoDir' with package.json already exists. Performing git checkout."
-            Set-Location $repoDir
+          if (Test-Path -Path "package.json") {
+            Write-Host "Repository already exists. Performing git checkout."
             git fetch origin
             git checkout main
             git pull origin main
           } else {
-            git clone git@github.com:kozyan/photoshop-uxp-plugin.git src
+            git clone git@github.com:kozyan/photoshop-uxp-plugin.git .
           }
         shell: powershell
 
